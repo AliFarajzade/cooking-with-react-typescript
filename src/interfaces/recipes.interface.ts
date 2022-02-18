@@ -1,17 +1,22 @@
-export interface IRecipes {
-    recipes: {
-        id?: number
-        name: string
-        servings: number
-        cookTime: string
-        instructions: string
-    }[]
+export type TIngredients = {
+    id?: string
+    name: string
+    amount: string
+}
+
+export interface IIngredients {
+    ingredients: TIngredients[]
 }
 
 export type TRecipe = {
-    id?: number
+    id?: string
     name: string
     servings: number
     cookTime: string
     instructions: string
+    ingredients: IIngredients['ingredients']
+}
+
+export interface IRecipes {
+    recipes: TRecipe[]
 }
