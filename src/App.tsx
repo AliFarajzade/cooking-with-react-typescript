@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
+import RecipeEdit from './components/recipe-edit/recipe-edit.component'
 import RecipeList from './components/recipe-list/recipe-list.component'
 
 import RecipesContextProvider from './contexts/recipes.context'
@@ -10,6 +11,7 @@ const App: React.FC = (): JSX.Element => {
     return (
         <RecipesContextProvider>
             <RecipeList />
+            <RecipeEdit />
         </RecipesContextProvider>
     )
 }

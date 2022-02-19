@@ -9,14 +9,19 @@ import IngredientsList from '../ingredients-list/ingredients-list.component'
 const Recipe: React.FC<{ recipeObj: TRecipe }> = ({
     recipeObj: { id, cookTime, ingredients, instructions, name, servings },
 }): JSX.Element => {
-    const { handleDeleteRecipe } = useRecipeData()
+    const { handleDeleteRecipe, handleRecipeSelectID } = useRecipeData()
 
     return (
         <div className="recipe">
             <div className="recipe__header">
                 <h3 className="recipe__title">{name}</h3>
                 <div>
-                    <button className="btn btn--primary mr-1">Edit</button>
+                    <button
+                        onClick={() => handleRecipeSelectID(id)}
+                        className="btn btn--primary mr-1"
+                    >
+                        Edit
+                    </button>
                     <button
                         className="btn btn--danger"
                         onClick={() => handleDeleteRecipe(id)}

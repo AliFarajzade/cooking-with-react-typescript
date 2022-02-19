@@ -2,13 +2,19 @@ import React, { useState, useContext, createContext, useEffect } from 'react'
 
 import { v4 as uuidv4 } from 'uuid'
 
-import { TContextValues, IRecipes } from '../interfaces/recipes.interface'
+import {
+    TContextValues,
+    IRecipes,
+    TRecipe,
+} from '../interfaces/recipes.interface'
 
 import sampleRecipes from '../assets/recipes.data'
 
 const RecipesContext = createContext<TContextValues>({
     handleDeleteRecipe: (id: string) => {},
     handleRecipeAdd: () => {},
+    handleRecipeSelectID: (id: string) => {},
+    selectedRecipeID: '',
     recipes: [],
 })
 
@@ -16,6 +22,11 @@ export const useRecipeData = () => useContext(RecipesContext)
 
 const RecipesContextProvider: React.FC = ({ children }): JSX.Element => {
     const [recipes, setRecipes] = useState<IRecipes['recipes']>(sampleRecipes)
+    const [selectedRecipeID, setSelectedRecipeID] = useState<string>('')
+
+    const selectedRecipeObj: TRecipe | undefined = recipes.find(
+        recipeObj => recipeObj.id === selectedRecipeID
+    )
 
     // For initialize
     useEffect(() => {
@@ -52,11 +63,17 @@ const RecipesContextProvider: React.FC = ({ children }): JSX.Element => {
         setRecipes(newRecipes)
     }
 
+    const handleRecipeSelectID = (id: string) => {
+        setSelectedRecipeID(id)
+    }
+
     const contextValues: TContextValues = {
-        // setRecipes,
         recipes,
         handleDeleteRecipe,
         handleRecipeAdd,
+        handleRecipeSelectID,
+        selectedRecipeObj,
+        selectedRecipeID,
     }
 
     return (

@@ -24,6 +24,8 @@ export interface IRecipes {
 export type TContextValues = {
     handleRecipeAdd: () => void
     handleDeleteRecipe: (id: string) => void
+    handleRecipeSelectID: (id: string) => void
     recipes: TRecipe[]
-    // setRecipes: React.Dispatch<React.SetStateAction<TRecipe[]>>
+    selectedRecipeObj?: TRecipe | undefined
+    selectedRecipeID: string
 }
