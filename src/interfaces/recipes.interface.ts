@@ -22,7 +22,7 @@ export interface IRecipes {
 }
 
 export type TContextValues = {
-    handleRecipeAdd: () => void
+    handleAddRecipe: () => void
     handleDeleteRecipe: (id: string) => void
     handleRecipeSelectID: (id: string) => void
     handleClearSelectedRecipeID: () => void
@@ -32,6 +32,8 @@ export type TContextValues = {
         selectedRecipeObj: TRecipe,
         newIngredientObj: TIngredients
     ) => void
+    handleAddIngredient: () => void
+    handleDeleteIngredient: (id: string) => void
     recipes: TRecipe[]
     selectedRecipeObj?: TRecipe | undefined
     selectedRecipeID: string

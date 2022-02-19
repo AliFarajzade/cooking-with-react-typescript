@@ -13,7 +13,7 @@ import sampleRecipes from '../assets/recipes.data'
 
 const RecipesContext = createContext<TContextValues>({
     handleDeleteRecipe: (id: string) => {},
-    handleRecipeAdd: () => {},
+    handleAddRecipe: () => {},
     handleRecipeSelectID: (id: string) => {},
     handleClearSelectedRecipeID: () => {},
     handleRecipeChange: (id: string, newRecipeObj: TRecipe) => {},
@@ -22,6 +22,8 @@ const RecipesContext = createContext<TContextValues>({
         selectedRecipeObj: TRecipe,
         newIngredientObj: TIngredients
     ) => {},
+    handleAddIngredient: () => {},
+    handleDeleteIngredient: (id: string) => {},
     selectedRecipeID: '',
     recipes: [],
 })
@@ -47,8 +49,9 @@ const RecipesContextProvider: React.FC = ({ children }): JSX.Element => {
         localStorage.setItem('recipesList', JSON.stringify(recipes))
     }, [recipes])
 
-    const handleRecipeAdd = () => {
-        console.log('handleRecipeAdd')
+    const handleAddRecipe = () => {
+        console.log('handleRecipeAdd', recipes)
+
         const newRecipe = {
             id: uuidv4(),
             name: 'New Meal',
@@ -64,31 +67,7 @@ const RecipesContextProvider: React.FC = ({ children }): JSX.Element => {
             ],
         }
 
-        setRecipes([...recipes, newRecipe])
-    }
-
-    const handleDeleteRecipe = (id: string) => {
-        const newRecipes = recipes.filter(recipeObj => recipeObj.id !== id)
-        setRecipes(newRecipes)
-    }
-
-    const handleRecipeSelectID = (id: string) => {
-        console.log('handleRecipeSelectID')
-
-        setSelectedRecipeID(id)
-    }
-
-    const handleClearSelectedRecipeID = () => {
-        console.log('handleClearSelectedRecipeID')
-
-        setSelectedRecipeID('')
-    }
-
-    const handleRecipeChange = (id: string, newRecipeObj: TRecipe) => {
-        const newRecipes = [...recipes]
-        const index = newRecipes.findIndex(recipeObj => recipeObj.id === id)
-        newRecipes[index] = newRecipeObj
-        setRecipes(newRecipes)
+        setRecipes([newRecipe, ...recipes])
     }
 
     const handleIngredientsChange = (
@@ -107,16 +86,70 @@ const RecipesContextProvider: React.FC = ({ children }): JSX.Element => {
         })
     }
 
+    const handleRecipeChange = (id: string, newRecipeObj: TRecipe) => {
+        const newRecipes = [...recipes]
+        const index = newRecipes.findIndex(recipeObj => recipeObj.id === id)
+        newRecipes[index] = newRecipeObj
+        setRecipes(newRecipes)
+    }
+
+    const handleAddIngredient = () => {
+        const newIngredient: TIngredients = {
+            id: uuidv4(),
+            name: 'New Ing',
+            amount: '1',
+        }
+
+        if (!selectedRecipeObj) return
+
+        handleRecipeChange(selectedRecipeID, {
+            ...selectedRecipeObj,
+            ingredients: [...selectedRecipeObj?.ingredients, newIngredient],
+        })
+    }
+
+    const handleDeleteIngredient = (id: string) => {
+        if (!selectedRecipeObj) return
+
+        const newIngredients = selectedRecipeObj.ingredients.filter(
+            ingredientObj => ingredientObj.id !== id
+        )
+
+        handleRecipeChange(selectedRecipeID, {
+            ...selectedRecipeObj,
+            ingredients: newIngredients,
+        })
+    }
+
+    const handleDeleteRecipe = (id: string) => {
+        const newRecipes = recipes.filter(recipeObj => recipeObj.id !== id)
+        setRecipes(newRecipes)
+    }
+
+    const handleRecipeSelectID = (id: string) => {
+        console.log('handleRecipeSelectID', recipes)
+
+        setSelectedRecipeID(id)
+    }
+
+    const handleClearSelectedRecipeID = () => {
+        console.log('handleClearSelectedRecipeID', recipes)
+
+        setSelectedRecipeID('')
+    }
+
     const contextValues: TContextValues = {
         handleDeleteRecipe,
-        handleRecipeAdd,
+        handleAddRecipe,
         handleRecipeSelectID,
         handleClearSelectedRecipeID,
         handleRecipeChange,
         handleIngredientsChange,
-        recipes,
+        handleAddIngredient,
+        handleDeleteIngredient,
         selectedRecipeObj,
         selectedRecipeID,
+        recipes,
     }
 
     return (

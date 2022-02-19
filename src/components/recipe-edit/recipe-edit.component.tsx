@@ -9,6 +9,7 @@ const RecipeEdit = () => {
         selectedRecipeObj,
         handleClearSelectedRecipeID,
         handleRecipeChange,
+        handleAddIngredient,
     } = useRecipeData()
 
     if (!selectedRecipeObj) return null
@@ -92,7 +93,12 @@ const RecipeEdit = () => {
                 ))}
             </div>
             <div className="recipe-edit__add-ingredient-btn-container">
-                <button className="btn btn--primary">Add Ingredient</button>
+                <button
+                    onClick={handleAddIngredient}
+                    className="btn btn--primary"
+                >
+                    Add Ingredient
+                </button>
             </div>
         </div>
     )

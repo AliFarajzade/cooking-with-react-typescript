@@ -8,7 +8,11 @@ const RecipeIngredientEdit: React.FC<{ ingredientsObj: TIngredients }> = ({
     ingredientsObj,
 }) => {
     const { id, name, amount } = ingredientsObj
-    const { handleIngredientsChange, selectedRecipeObj } = useRecipeData()
+    const {
+        handleIngredientsChange,
+        selectedRecipeObj,
+        handleDeleteIngredient,
+    } = useRecipeData()
 
     const handleChangeInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (selectedRecipeObj) {
@@ -35,7 +39,12 @@ const RecipeIngredientEdit: React.FC<{ ingredientsObj: TIngredients }> = ({
                 className="recipe-edit__input"
                 type="text"
             />
-            <button className="btn btn--danger">&times;</button>
+            <button
+                onClick={() => handleDeleteIngredient(id)}
+                className="btn btn--danger"
+            >
+                &times;
+            </button>
         </>
     )
 }
