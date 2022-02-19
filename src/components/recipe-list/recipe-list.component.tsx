@@ -5,7 +5,12 @@ import Recipe from '../recipe/recipe.component'
 import { useRecipeData } from '../../contexts/recipes.context'
 
 const RecipeList: React.FC = (): JSX.Element => {
-    const { recipes, handleRecipeAdd } = useRecipeData()
+    const {
+        recipes,
+        handleRecipeAdd,
+        handleClearSelectedRecipeID,
+        handleRecipeSelectID,
+    } = useRecipeData()
 
     return (
         <div className="recipe-list">
@@ -13,7 +18,12 @@ const RecipeList: React.FC = (): JSX.Element => {
                 <Recipe key={recipeObj.id} recipeObj={recipeObj} />
             ))}
             <div className="recipe-list__add-recipe-btn-container">
-                <button onClick={handleRecipeAdd} className="btn btn--primary">
+                <button
+                    onClick={() => {
+                        handleRecipeAdd()
+                    }}
+                    className="btn btn--primary"
+                >
                     Add Recipe
                 </button>
             </div>

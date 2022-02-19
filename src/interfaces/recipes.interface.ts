@@ -25,6 +25,13 @@ export type TContextValues = {
     handleRecipeAdd: () => void
     handleDeleteRecipe: (id: string) => void
     handleRecipeSelectID: (id: string) => void
+    handleClearSelectedRecipeID: () => void
+    handleRecipeChange: (id: string, newRecipeObj: TRecipe) => void
+    handleIngredientsChange: (
+        id: string,
+        selectedRecipeObj: TRecipe,
+        newIngredientObj: TIngredients
+    ) => void
     recipes: TRecipe[]
     selectedRecipeObj?: TRecipe | undefined
     selectedRecipeID: string

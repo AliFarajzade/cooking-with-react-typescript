@@ -5,15 +5,30 @@ import RecipeIngredientEdit from '../recipe-ingredients-edit/recipe-ingredients-
 import { useRecipeData } from '../../contexts/recipes.context'
 
 const RecipeEdit = () => {
-    const { selectedRecipeObj } = useRecipeData()
-    console.log(selectedRecipeObj)
+    const {
+        selectedRecipeObj,
+        handleClearSelectedRecipeID,
+        handleRecipeChange,
+    } = useRecipeData()
 
     if (!selectedRecipeObj) return null
+
+    const handleChangeInputValue = (
+        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    ) => {
+        handleRecipeChange(selectedRecipeObj.id, {
+            ...selectedRecipeObj,
+            [e.target.name]: e.target.value,
+        })
+    }
 
     return (
         <div className="recipe-edit">
             <div className="recipe-edit__remove-button-container">
-                <button className="btn recipe-edit__remove-button">
+                <button
+                    onClick={handleClearSelectedRecipeID}
+                    className="btn recipe-edit__remove-button"
+                >
                     &times;
                 </button>
             </div>
@@ -27,6 +42,7 @@ const RecipeEdit = () => {
                     id="name"
                     className="recipe-edit__input"
                     value={selectedRecipeObj?.name}
+                    onChange={handleChangeInputValue}
                 />
                 <label htmlFor="cookTime" className="recipe-edit__label">
                     Cook Time
@@ -37,6 +53,7 @@ const RecipeEdit = () => {
                     id="cookTime"
                     className="recipe-edit__input"
                     value={selectedRecipeObj?.cookTime}
+                    onChange={handleChangeInputValue}
                 />
                 <label htmlFor="servings" className="recipe-edit__label">
                     Servings
@@ -48,6 +65,7 @@ const RecipeEdit = () => {
                     id="servings"
                     className="recipe-edit__input"
                     value={selectedRecipeObj?.servings}
+                    onChange={handleChangeInputValue}
                 />
                 <label htmlFor="instructions" className="recipe-edit__label">
                     Instructions
@@ -57,6 +75,7 @@ const RecipeEdit = () => {
                     className="recipe-edit__input"
                     id="instructions"
                     value={selectedRecipeObj?.instructions}
+                    onChange={handleChangeInputValue}
                 ></textarea>
             </div>
             <br />

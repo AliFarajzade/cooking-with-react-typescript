@@ -2,13 +2,39 @@ import React from 'react'
 
 import { TIngredients } from '../../interfaces/recipes.interface'
 
+import { useRecipeData } from '../../contexts/recipes.context'
+
 const RecipeIngredientEdit: React.FC<{ ingredientsObj: TIngredients }> = ({
-    ingredientsObj: { name, amount },
+    ingredientsObj,
 }) => {
+    const { id, name, amount } = ingredientsObj
+    const { handleIngredientsChange, selectedRecipeObj } = useRecipeData()
+
+    const handleChangeInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (selectedRecipeObj) {
+            handleIngredientsChange(id, selectedRecipeObj, {
+                ...ingredientsObj,
+                [e.target.name]: e.target.value,
+            })
+        }
+    }
+
     return (
         <>
-            <input value={name} className="recipe-edit__input" type="text" />
-            <input value={amount} className="recipe-edit__input" type="text" />
+            <input
+                name="name"
+                onChange={handleChangeInputValue}
+                value={name}
+                className="recipe-edit__input"
+                type="text"
+            />
+            <input
+                name="amount"
+                onChange={handleChangeInputValue}
+                value={amount}
+                className="recipe-edit__input"
+                type="text"
+            />
             <button className="btn btn--danger">&times;</button>
         </>
     )

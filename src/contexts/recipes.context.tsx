@@ -6,6 +6,7 @@ import {
     TContextValues,
     IRecipes,
     TRecipe,
+    TIngredients,
 } from '../interfaces/recipes.interface'
 
 import sampleRecipes from '../assets/recipes.data'
@@ -14,6 +15,13 @@ const RecipesContext = createContext<TContextValues>({
     handleDeleteRecipe: (id: string) => {},
     handleRecipeAdd: () => {},
     handleRecipeSelectID: (id: string) => {},
+    handleClearSelectedRecipeID: () => {},
+    handleRecipeChange: (id: string, newRecipeObj: TRecipe) => {},
+    handleIngredientsChange: (
+        id: string,
+        selectedRecipeObj: TRecipe,
+        newIngredientObj: TIngredients
+    ) => {},
     selectedRecipeID: '',
     recipes: [],
 })
@@ -40,6 +48,7 @@ const RecipesContextProvider: React.FC = ({ children }): JSX.Element => {
     }, [recipes])
 
     const handleRecipeAdd = () => {
+        console.log('handleRecipeAdd')
         const newRecipe = {
             id: uuidv4(),
             name: 'New Meal',
@@ -64,14 +73,48 @@ const RecipesContextProvider: React.FC = ({ children }): JSX.Element => {
     }
 
     const handleRecipeSelectID = (id: string) => {
+        console.log('handleRecipeSelectID')
+
         setSelectedRecipeID(id)
     }
 
+    const handleClearSelectedRecipeID = () => {
+        console.log('handleClearSelectedRecipeID')
+
+        setSelectedRecipeID('')
+    }
+
+    const handleRecipeChange = (id: string, newRecipeObj: TRecipe) => {
+        const newRecipes = [...recipes]
+        const index = newRecipes.findIndex(recipeObj => recipeObj.id === id)
+        newRecipes[index] = newRecipeObj
+        setRecipes(newRecipes)
+    }
+
+    const handleIngredientsChange = (
+        id: string,
+        selectedRecipeObj: TRecipe,
+        newIngredientObj: TIngredients
+    ) => {
+        const newIngredients = [...selectedRecipeObj.ingredients]
+        const index = selectedRecipeObj.ingredients.findIndex(
+            ingredientObj => ingredientObj.id === id
+        )
+        newIngredients[index] = newIngredientObj
+        handleRecipeChange(selectedRecipeObj.id, {
+            ...selectedRecipeObj,
+            ingredients: newIngredients,
+        })
+    }
+
     const contextValues: TContextValues = {
-        recipes,
         handleDeleteRecipe,
         handleRecipeAdd,
         handleRecipeSelectID,
+        handleClearSelectedRecipeID,
+        handleRecipeChange,
+        handleIngredientsChange,
+        recipes,
         selectedRecipeObj,
         selectedRecipeID,
     }
