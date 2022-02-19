@@ -20,3 +20,10 @@ export type TRecipe = {
 export interface IRecipes {
     recipes: TRecipe[]
 }
+
+export type TContextValues = {
+    handleRecipeAdd: () => void
+    handleDeleteRecipe: (id: string) => void
+    recipes: TRecipe[]
+    // setRecipes: React.Dispatch<React.SetStateAction<TRecipe[]>>
+}

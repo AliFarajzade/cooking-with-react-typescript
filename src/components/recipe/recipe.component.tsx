@@ -2,17 +2,15 @@ import React from 'react'
 
 import { TRecipe } from '../../interfaces/recipes.interface'
 
+import { useRecipeData } from '../../contexts/recipes.context'
+
 import IngredientsList from '../ingredients-list/ingredients-list.component'
 
-interface IProps {
-    recipeObj: TRecipe
-    handleDeleteRecipe: (id: string) => void
-}
-
-const Recipe: React.FC<IProps> = ({
+const Recipe: React.FC<{ recipeObj: TRecipe }> = ({
     recipeObj: { id, cookTime, ingredients, instructions, name, servings },
-    handleDeleteRecipe,
 }): JSX.Element => {
+    const { handleDeleteRecipe } = useRecipeData()
+
     return (
         <div className="recipe">
             <div className="recipe__header">
