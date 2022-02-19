@@ -1,14 +1,17 @@
 import React from 'react'
 
 import { TRecipe } from '../../interfaces/recipes.interface'
+
 import IngredientsList from '../ingredients-list/ingredients-list.component'
 
-const Recipe: React.FC<TRecipe> = ({
-    name,
-    cookTime,
-    servings,
-    instructions,
-    ingredients,
+interface IProps {
+    recipeObj: TRecipe
+    handleDeleteRecipe: (id: string) => void
+}
+
+const Recipe: React.FC<IProps> = ({
+    recipeObj: { id, cookTime, ingredients, instructions, name, servings },
+    handleDeleteRecipe,
 }): JSX.Element => {
     return (
         <div className="recipe">
@@ -16,7 +19,12 @@ const Recipe: React.FC<TRecipe> = ({
                 <h3 className="recipe__title">{name}</h3>
                 <div>
                     <button className="btn btn--primary mr-1">Edit</button>
-                    <button className="btn btn--danger">Delete</button>
+                    <button
+                        className="btn btn--danger"
+                        onClick={() => handleDeleteRecipe(id)}
+                    >
+                        Delete
+                    </button>
                 </div>
             </div>
             <div className="recipe__row">

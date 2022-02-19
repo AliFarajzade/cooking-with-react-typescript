@@ -1,5 +1,5 @@
 export type TIngredients = {
-    id?: string
+    id: string
     name: string
     amount: string
 }
@@ -9,7 +9,7 @@ export interface IIngredients {
 }
 
 export type TRecipe = {
-    id?: string
+    id: string
     name: string
     servings: number
     cookTime: string

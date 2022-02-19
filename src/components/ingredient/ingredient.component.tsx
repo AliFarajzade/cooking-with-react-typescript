@@ -2,7 +2,13 @@ import React from 'react'
 
 import { TIngredients } from '../../interfaces/recipes.interface'
 
-const Ingredient: React.FC<TIngredients> = ({ name, amount }): JSX.Element => {
+interface IProps {
+    ingredientsObj: TIngredients
+}
+
+const Ingredient: React.FC<IProps> = ({
+    ingredientsObj: { name, amount },
+}): JSX.Element => {
     return (
         <>
             <span>{name}</span>

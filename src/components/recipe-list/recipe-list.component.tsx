@@ -4,14 +4,30 @@ import Recipe from '../recipe/recipe.component'
 
 import { IRecipes } from '../../interfaces/recipes.interface'
 
-const RecipeList: React.FC<IRecipes> = ({ recipes }): JSX.Element => {
+interface IProps {
+    recipes: IRecipes['recipes']
+    handleRecipeAdd: () => void
+    handleDeleteRecipe: (id: string) => void
+}
+
+const RecipeList: React.FC<IProps> = ({
+    recipes,
+    handleRecipeAdd,
+    handleDeleteRecipe,
+}): JSX.Element => {
     return (
         <div className="recipe-list">
-            {recipes.map(({ id, ...otherRecipeProperties }) => (
-                <Recipe key={id} {...otherRecipeProperties} />
+            {recipes.map(recipeObj => (
+                <Recipe
+                    key={recipeObj.id}
+                    handleDeleteRecipe={handleDeleteRecipe}
+                    recipeObj={recipeObj}
+                />
             ))}
             <div className="recipe-list__add-recipe-btn-container">
-                <button className="btn btn--primary">Add Recipe</button>
+                <button onClick={handleRecipeAdd} className="btn btn--primary">
+                    Add Recipe
+                </button>
             </div>
         </div>
     )
