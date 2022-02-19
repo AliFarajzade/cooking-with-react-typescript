@@ -1,4 +1,4 @@
-import React, { useState, useContext, createContext } from 'react'
+import React, { useState, useContext, createContext, useEffect } from 'react'
 
 import { v4 as uuidv4 } from 'uuid'
 
@@ -16,6 +16,17 @@ export const useRecipeData = () => useContext(RecipesContext)
 
 const RecipesContextProvider: React.FC = ({ children }): JSX.Element => {
     const [recipes, setRecipes] = useState<IRecipes['recipes']>(sampleRecipes)
+
+    // For initialize
+    useEffect(() => {
+        const localRecipesList = localStorage.getItem('recipesList')
+        if (localRecipesList) setRecipes(JSON.parse(localRecipesList))
+    }, [])
+
+    // For recipe list changes
+    useEffect(() => {
+        localStorage.setItem('recipesList', JSON.stringify(recipes))
+    }, [recipes])
 
     const handleRecipeAdd = () => {
         const newRecipe = {
