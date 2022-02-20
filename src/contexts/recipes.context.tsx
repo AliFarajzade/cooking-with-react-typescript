@@ -24,14 +24,19 @@ const RecipesContext = createContext<TContextValues>({
     ) => {},
     handleAddIngredient: () => {},
     handleDeleteIngredient: (id: string) => {},
+    handleSearchRecipe: (searchedTerm: string) => {},
     selectedRecipeID: '',
     recipes: [],
+    searchedRecipes: [],
 })
 
 export const useRecipeData = () => useContext(RecipesContext)
 
 const RecipesContextProvider: React.FC = ({ children }): JSX.Element => {
     const [recipes, setRecipes] = useState<IRecipes['recipes']>(sampleRecipes)
+    const [searchedRecipes, setSearchedRecipes] = useState<
+        IRecipes['recipes'] | []
+    >([])
     const [selectedRecipeID, setSelectedRecipeID] = useState<string>('')
 
     const selectedRecipeObj: TRecipe | undefined = recipes.find(
@@ -138,6 +143,19 @@ const RecipesContextProvider: React.FC = ({ children }): JSX.Element => {
         setSelectedRecipeID('')
     }
 
+    const handleSearchRecipe = (searchedTerm: string) => {
+        if (!searchedTerm) return setSearchedRecipes([])
+
+        const foundedRecipes = recipes.filter(
+            recipeObj =>
+                recipeObj.name
+                    .toLocaleLowerCase()
+                    .includes(searchedTerm.toLocaleLowerCase()) && recipeObj
+        )
+
+        setSearchedRecipes(foundedRecipes)
+    }
+
     const contextValues: TContextValues = {
         handleDeleteRecipe,
         handleAddRecipe,
@@ -147,9 +165,11 @@ const RecipesContextProvider: React.FC = ({ children }): JSX.Element => {
         handleIngredientsChange,
         handleAddIngredient,
         handleDeleteIngredient,
+        handleSearchRecipe,
         selectedRecipeObj,
         selectedRecipeID,
         recipes,
+        searchedRecipes,
     }
 
     return (
